@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Task } from '../../Task';
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { TaskService } from '../../services/task.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule,TaskItemComponent],
+  imports: [CommonModule,TaskItemComponent, HttpClientModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -15,6 +16,7 @@ export class TasksComponent {
   tasks: Task[] = [];
   constructor (private taskService: TaskService){}
   ngOnInit(): void{
-    this.tasks=this.taskService.getTasks();
+    this.taskService.getTasks().subscribe((tasks)=>
+      (this.tasks=tasks));
   }
 }
