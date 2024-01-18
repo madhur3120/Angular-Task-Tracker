@@ -14,12 +14,11 @@ export class TaskService {
   constructor(private http: HttpClient) { }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl) 
-    .pipe(
-      catchError(error => {
-        console.error('Error fetching tasks:', error);
-        throw error; // Rethrow the error to propagate it further
-      })
-    );
+    return this.http.get<Task[]>(this.apiUrl);
+  }
+
+  deleteTask(task: Task): Observable<Task> {
+    let url = `${this.apiUrl}/${task.id}`;
+    return this.http.delete<Task>(url);
   }
 }
